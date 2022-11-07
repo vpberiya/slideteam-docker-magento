@@ -24,48 +24,6 @@ bin/docker-compose --no-dev up -d
 bin/clinotty chmod u+x bin/magento
 rm -rf src && mkdir src
 
-echo "Adding Magento modules to Composer allow-plugins directive..."
-bin/clinotty composer config --no-plugins allow-plugins.magento/magento-composer-installer true
-bin/clinotty composer config --no-plugins allow-plugins.magento/inventory-composer-installer true
-bin/clinotty composer config --no-plugins allow-plugins.laminas/laminas-dependency-plugin true
-
-# bin/clinotty bin/magento setup:install \
-#   --db-host="$MYSQL_HOST" \
-#   --db-name="$MYSQL_DATABASE" \
-#   --db-user="$MYSQL_USER" \
-#   --db-password="$MYSQL_PASSWORD" \
-#   --base-url=https://"$DOMAIN"/ \
-#   --base-url-secure=https://"$DOMAIN"/ \
-#   --backend-frontname="$MAGENTO_ADMIN_FRONTNAME" \
-#   --admin-firstname="$MAGENTO_ADMIN_FIRST_NAME" \
-#   --admin-lastname="$MAGENTO_ADMIN_LAST_NAME" \
-#   --admin-email="$MAGENTO_ADMIN_EMAIL" \
-#   --admin-user="$MAGENTO_ADMIN_USER" \
-#   --admin-password="$MAGENTO_ADMIN_PASSWORD" \
-#   --language="$MAGENTO_LOCALE" \
-#   --currency="$MAGENTO_CURRENCY" \
-#   --timezone="$MAGENTO_TIMEZONE" \
-#   --amqp-host="$RABBITMQ_HOST" \
-#   --amqp-port="$RABBITMQ_PORT" \
-#   --amqp-user="$RABBITMQ_DEFAULT_USER" \
-#   --amqp-password="$RABBITMQ_DEFAULT_PASS" \
-#   --amqp-virtualhost="$RABBITMQ_DEFAULT_VHOST" \
-#   --cache-backend=redis \
-#   --cache-backend-redis-server=redis \
-#   --cache-backend-redis-db=0 \
-#   --page-cache=redis \
-#   --page-cache-redis-server=redis \
-#   --page-cache-redis-db=1 \
-#   --session-save=redis \
-#   --session-save-redis-host=redis \
-#   --session-save-redis-log-level=4 \
-#   --session-save-redis-db=2 \
-#   --search-engine=elasticsearch7 \
-#   --elasticsearch-host=$ES_HOST \
-#   --elasticsearch-port=$ES_PORT \
-#   --use-rewrites=1 \
-#   --no-interaction
-
 echo "Copying env.php file from host to container "
 docker-compose cp ./slideteam/env.php phpfpm:/var/www/html/app/etc/env.php
 
