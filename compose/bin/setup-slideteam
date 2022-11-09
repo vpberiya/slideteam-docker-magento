@@ -16,6 +16,12 @@ source env/rabbitmq.env
 
 DOMAIN=${1:-magento.test}
 
+if hash docker-compose 2>/dev/null; then
+  DOCKER_COMPOSE="docker-compose"
+else
+  DOCKER_COMPOSE="docker compose"
+fi
+
 bin/stop
 
 bin/docker-compose --no-dev up -d
@@ -25,16 +31,16 @@ bin/clinotty chmod u+x bin/magento
 rm -rf src && mkdir src
 
 echo "Copying env.php file from host to container "
-docker-compose cp ./slideteam/env.php phpfpm:/var/www/html/app/etc/env.php
+${DOCKER_COMPOSE} cp ./slideteam/env.php phpfpm:/var/www/html/app/etc/env.php
 
 echo "Copying wp config file from host to container "
-docker-compose cp ./slideteam/wp-config.php phpfpm:/var/www/html/pub/wp/wp-config.php
+${DOCKER_COMPOSE} cp ./slideteam/wp-config.php phpfpm:/var/www/html/pub/wp/wp-config.php
 
 echo "Copying License.php file from host to container "
-docker-compose cp ./slideteam/License.php phpfpm:/var/www/html/app/code/Mgt/Varnish/Model/License.php
+${DOCKER_COMPOSE} cp ./slideteam/License.php phpfpm:/var/www/html/app/code/Mgt/Varnish/Model/License.php
 
 echo "Copying LayoutPlugin.php file from host to container "
-docker-compose cp ./slideteam/LayoutPlugin.php phpfpm:/var/www/html/app/code/Mgt/Varnish/Model/Plugin/LayoutPlugin.php
+${DOCKER_COMPOSE} cp ./slideteam/LayoutPlugin.php phpfpm:/var/www/html/app/code/Mgt/Varnish/Model/Plugin/LayoutPlugin.php
 
 echo "Copying files from container to host "
 bin/copyfromcontainer --all
